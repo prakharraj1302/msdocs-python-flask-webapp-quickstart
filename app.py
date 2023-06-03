@@ -1,32 +1,36 @@
 import os
 
 from flask import (Flask, redirect, render_template, request,
-                   send_from_directory, url_for)
+                   send_from_directory, url_for, Response , send_file)
 
 app = Flask(__name__)
 
 
 @app.route('/')
-def index():
-   print('Request for index page received')
-   return render_template('index.html')
+def get_octet_stream():
+    # Replace this with your octet stream data retrieval logic
+    octet_stream_data = b'\x01\x02\x03\x04\x05\x06\x07\x08'
 
-@app.route('/favicon.ico')
-def favicon():
+    return Response(octet_stream_data, mimetype='application/octet-stream')
+
+# def index():
+#    print('Request for index page received')
+#    return render_template('index.html')
+
+
+@app.route('/logo')
+def send_logo():
+    # file_path = 'path/to/file.ext'  # Replace with the actual path to your file
+
+    # # Set the appropriate headers for octet stream
+    # headers = {
+    #     'Content-Disposition': 'attachment; filename=md.ans',
+    #     'Content-Type': 'application/octet-stream',
+    # }
+    # # return send_file(file_path, attachment_filename='md.ans', headers=headers)
     return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
-
-@app.route('/hello', methods=['POST'])
-def hello():
-   name = request.form.get('name')
-
-   if name:
-       print('Request for hello page received with name=%s' % name)
-       return render_template('hello.html', name = name)
-   else:
-       print('Request for hello page received with no name or blank name -- redirecting')
-       return redirect(url_for('index'))
-
+                               'md.ans', mimetype='application/octet-stream')
+    # return send_file()
 
 if __name__ == '__main__':
-   app.run()
+    app.run()
