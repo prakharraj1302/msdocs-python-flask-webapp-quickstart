@@ -10,8 +10,11 @@ app = Flask(__name__)
 def get_octet_stream():
     # Replace this with your octet stream data retrieval logic
     octet_stream_data = b'\x01\x02\x03\x04\x05\x06\x07\x08'
+    res = None
+    with open('./static/md.ans' , 'r' , encoding = "ISO-8859-1") as file:
+        res = file.readlines()
 
-    return Response(octet_stream_data, mimetype='application/octet-stream')
+    return Response(res, mimetype='application/octet-stream')
 
 # def index():
 #    print('Request for index page received')
